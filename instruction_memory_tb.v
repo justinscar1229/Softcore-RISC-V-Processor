@@ -1,0 +1,49 @@
+`timescale 1ns/1ps
+
+module instruction_memory_tb;
+    reg [31:0] address;
+    wire [31:0] instruction;
+
+    instruction_memory dut (
+        .address(address),
+        .instruction(instruction)
+    );
+
+    initial begin
+        // Check the first four stored instructions.
+        address = 32'd0;
+        #10;
+        if (instruction !== 32'h00A00093)
+            $fatal(1, "Address 0 failed");
+
+        address = 32'd4;
+        #10;
+        if (instruction !== 32'h00300113)
+            $fatal(1, "Address 4 failed");
+
+        address = 32'd8;
+        #10;
+        if (instruction !== 32'h002081B3)
+            $fatal(1, "Address 8 failed");
+
+        address = 32'd12;
+        #10;
+        if (instruction !== 32'h40208233)
+            $fatal(1, "Address 12 failed");
+
+        // The first address after the program should return zero.
+        address = 32'd48;
+        #10;
+        if (instruction !== 32'h00000000)
+            $fatal(1, "Default value failed");
+
+        // Return to an earlier address.
+        address = 32'd4;
+        #10;
+        if (instruction !== 32'h00300113)
+            $fatal(1, "Read after address change failed");
+
+        $display("All instruction memory tests passed!");
+        $finish;
+    end
+endmodule
