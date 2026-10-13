@@ -1,11 +1,11 @@
 `timescale 1ns/1ps
 
 module register_tb;
-    reg clk;
-    reg reset;
-    reg write_enable;
-    reg [31:0] d;
-    wire [31:0] q;
+    logic clk;
+    logic reset;
+    logic write_enable;
+    logic [31:0] d;
+    logic [31:0] q;
 
     register dut(
         .clk(clk),
@@ -20,9 +20,6 @@ module register_tb;
     always #5 clk = ~clk;
 
     initial begin
-        $dumpfile("register.vcd");
-        $dumpvars(0, register_tb);
-
         reset = 1;
         write_enable = 0;
         d = 32'd0;

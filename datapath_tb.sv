@@ -1,13 +1,15 @@
 `timescale 1ns/1ps
 
 module datapath_tb;
-    reg clk;
-    reg [4:0] read_addr1, read_addr2, write_addr;
-    reg write_enable;
-    reg [1:0] alu_op;
-    reg load_external;
-    reg [31:0] external_data;
-    wire [31:0] alu_result;
+    import riscv_pkg::*;
+
+    logic clk;
+    logic [4:0] read_addr1, read_addr2, write_addr;
+    logic write_enable;
+    alu_op_t alu_op;
+    logic load_external;
+    logic [31:0] external_data;
+    logic [31:0] alu_result;
 
     datapath dut(
         .clk(clk),
@@ -25,14 +27,11 @@ module datapath_tb;
     always #5 clk = ~clk;
 
     initial begin
-        $dumpfile("datapath.vcd");
-        $dumpvars(0, datapath_tb);
-
         read_addr1 = 0;
         read_addr2 = 0;
         write_addr = 0;
         write_enable = 0;
-        alu_op = 2'b00;
+        alu_op = ALU_ADD;
         load_external = 0;
         external_data = 0;
 
@@ -57,7 +56,7 @@ module datapath_tb;
         load_external = 0;
         read_addr1 = 5'd1;
         read_addr2 = 5'd2;
-        alu_op = 2'b00;
+        alu_op = ALU_ADD;
         write_addr = 5'd5;
 
         #1;

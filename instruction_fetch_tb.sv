@@ -1,16 +1,18 @@
 `timescale 1ns/1ps
 
 module instruction_fetch_tb;
-    reg clk;
-    reg reset;
-    reg enable;
-    wire [31:0] pc;
-    wire [31:0] instruction;
+    logic clk;
+    logic reset;
+    logic enable;
+    logic [31:0] pc;
+    logic [31:0] instruction;
 
     instruction_fetch dut(
         .clk(clk),
         .reset(reset),
         .enable(enable),
+        .load(1'b0),         // no branches in this test
+        .target(32'd0),
         .pc(pc),
         .instruction(instruction)
     );

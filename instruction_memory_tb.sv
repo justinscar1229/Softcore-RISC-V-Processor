@@ -1,8 +1,8 @@
 `timescale 1ns/1ps
 
 module instruction_memory_tb;
-    reg [31:0] address;
-    wire [31:0] instruction;
+    logic [31:0] address;
+    logic [31:0] instruction;
 
     instruction_memory dut (
         .address(address),
@@ -32,7 +32,7 @@ module instruction_memory_tb;
             $fatal(1, "Address 12 failed");
 
         // The first address after the program should return zero.
-        address = 32'd48;
+        address = 32'd372;
         #10;
         if (instruction !== 32'h00000000)
             $fatal(1, "Default value failed");

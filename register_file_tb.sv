@@ -1,12 +1,12 @@
 `timescale 1ns/1ps
 
 module register_file_tb;
-    reg clk;
-    reg [4:0] read_addr1, read_addr2;
-    wire [31:0] read_data1, read_data2;
-    reg write_enable;
-    reg [4:0] write_addr;
-    reg [31:0] write_data;
+    logic clk;
+    logic [4:0] read_addr1, read_addr2;
+    logic [31:0] read_data1, read_data2;
+    logic write_enable;
+    logic [4:0] write_addr;
+    logic [31:0] write_data;
 
     register_file dut (
         .clk(clk),
@@ -23,9 +23,6 @@ module register_file_tb;
     always #5 clk = ~clk;
 
     initial begin
-        $dumpfile("register_file.vcd");
-        $dumpvars(0, register_file_tb);
-
         read_addr1 = 0;
         read_addr2 = 0;
         write_enable = 0;

@@ -1,13 +1,13 @@
 `timescale 1ns/1ps
 
 module instruction_decoder_tb;
-    reg  [31:0] instruction;
-    wire [6:0]  opcode;
-    wire [4:0]  rd;
-    wire [2:0]  funct3;
-    wire [4:0]  rs1;
-    wire [4:0]  rs2;
-    wire [6:0]  funct7;
+    logic [31:0] instruction;
+    logic [6:0]  opcode;
+    logic [4:0]  rd;
+    logic [2:0]  funct3;
+    logic [4:0]  rs1;
+    logic [4:0]  rs2;
+    logic [6:0]  funct7;
 
     instruction_decoder dut (
         .instruction(instruction),
