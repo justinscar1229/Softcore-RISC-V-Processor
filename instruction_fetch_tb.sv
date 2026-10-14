@@ -7,7 +7,7 @@ module instruction_fetch_tb;
     logic [31:0] pc;
     logic [31:0] instruction;
 
-    instruction_fetch dut(
+    instruction_fetch #(.PROGRAM("programs/cpu_test.hex")) dut (
         .clk(clk),
         .reset(reset),
         .enable(enable),

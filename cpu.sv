@@ -1,6 +1,8 @@
 module cpu
     import riscv_pkg::*;
-(
+#(
+    parameter PROGRAM = "program.hex"   // hex file for instruction memory
+) (
     input  logic        clk,
     input  logic        reset,
     output logic [31:0] pc,
@@ -15,7 +17,7 @@ module cpu
     // ---------------- Fetch ----------------
     // The PC advances every cycle: to PC + 4, or to the target of a
     // taken branch or a jump.
-    instruction_fetch fetch (
+    instruction_fetch #(.PROGRAM(PROGRAM)) fetch (
         .clk(clk),
         .reset(reset),
         .enable(1'b1),

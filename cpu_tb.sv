@@ -6,7 +6,7 @@ module cpu_tb;
     logic [31:0] pc;
     logic [31:0] instruction;
 
-    cpu dut (
+    cpu #(.PROGRAM("programs/cpu_test.hex")) dut (
         .clk(clk),
         .reset(reset),
         .pc(pc),

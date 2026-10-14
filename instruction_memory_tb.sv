@@ -4,7 +4,7 @@ module instruction_memory_tb;
     logic [31:0] address;
     logic [31:0] instruction;
 
-    instruction_memory dut (
+    instruction_memory #(.PROGRAM("programs/cpu_test.hex")) dut (
         .address(address),
         .instruction(instruction)
     );
@@ -30,6 +30,12 @@ module instruction_memory_tb;
         #10;
         if (instruction !== 32'h40208233)
             $fatal(1, "Address 12 failed");
+
+        // The last instruction proves the whole file was loaded.
+        address = 32'd368;
+        #10;
+        if (instruction !== 32'hFFFFF837)
+            $fatal(1, "Address 368 (last instruction) failed");
 
         // The first address after the program should return zero.
         address = 32'd372;

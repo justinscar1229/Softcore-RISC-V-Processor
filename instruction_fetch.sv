@@ -1,4 +1,6 @@
-module instruction_fetch (
+module instruction_fetch #(
+    parameter PROGRAM = "program.hex"   // passed down to instruction memory
+) (
     input  logic        clk,
     input  logic        reset,
     input  logic        enable,
@@ -17,7 +19,7 @@ module instruction_fetch (
         .pc(pc)
     );
 
-    instruction_memory memory (
+    instruction_memory #(.PROGRAM(PROGRAM)) memory (
         .address(pc),
         .instruction(instruction)
     );
