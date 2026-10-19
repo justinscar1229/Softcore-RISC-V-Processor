@@ -1,2 +1,6 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# The official riscv-tests suite is third-party code: leave it out of
+# GitHub's language statistics, so the repo shows as SystemVerilog
+tests/riscv-tests/** linguist-vendored
