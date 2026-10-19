@@ -9,8 +9,11 @@ module cpu_tb;
     cpu #(.PROGRAM("programs/cpu_test.hex")) dut (
         .clk(clk),
         .reset(reset),
+        .enable(1'b1),
         .pc(pc),
-        .instruction(instruction)
+        .instruction(instruction),
+        .debug_reg(5'd0),
+        .debug_value()
     );
 
     initial clk = 0;
@@ -51,8 +54,8 @@ module cpu_tb;
         input [31:0] expected
     );
         begin
-            if (dut.dmem.mem[address[9:2]] !== expected)
-                $fatal(1, "mem[%0d] = %h, expected %h", address, dut.dmem.mem[address[9:2]], expected);
+            if (dut.dmem.mem[address[11:2]] !== expected)
+                $fatal(1, "mem[%0d] = %h, expected %h", address, dut.dmem.mem[address[11:2]], expected);
         end
     endtask
 

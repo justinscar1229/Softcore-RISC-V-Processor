@@ -1,5 +1,6 @@
 module instruction_memory #(
     parameter PROGRAM = "program.hex"   // hex file to load, built by programs\build.ps1
+                                        // ("" = start empty; a testbench loads it)
 ) (
     input  logic [31:0] address,
     output logic [31:0] instruction
@@ -17,7 +18,8 @@ module instruction_memory #(
     initial begin
         for (int i = 0; i < 1024; i++)
             mem[i] = 32'h00000000;
-        $readmemh(PROGRAM, mem);
+        if (PROGRAM != "")
+            $readmemh(PROGRAM, mem);
     end
 
     assign instruction = mem[index];

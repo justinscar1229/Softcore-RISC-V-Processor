@@ -7,14 +7,14 @@ module data_memory (
     output logic [31:0] read_data
 );
 
-    // 256 words = 1 KB. Byte address bits 9:2 select the word, and
+    // 1024 words = 4 KB. Byte address bits 11:2 select the word, and
     // bits 1:0 select the byte within it (little-endian: byte 0 is bits 7:0).
-    logic [31:0] mem [0:255];
+    logic [31:0] mem [0:1023];
 
-    logic [7:0] index;
+    logic [9:0] index;
     logic [1:0] offset;
     logic [1:0] size;                 // funct3[1:0]: 00 byte, 01 halfword, 10 word
-    assign index  = address[9:2];
+    assign index  = address[11:2];
     assign offset = address[1:0];
     assign size   = funct3[1:0];
 

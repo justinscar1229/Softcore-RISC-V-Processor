@@ -88,8 +88,9 @@ module data_memory_tb;
         #1;
         load_check(W, 0, 32'd13);
 
-        store(W, 1020, 32'hA5A5A5A5);          // highest word
-        load_check(W, 1020, 32'hA5A5A5A5);
+        store(W, 4092, 32'hA5A5A5A5);          // highest word
+        load_check(W, 4092, 32'hA5A5A5A5);
+        load_check(W, 0, 32'd13);              // must not wrap onto word 0
 
         // Little-endian: byte 8 is bits 7:0 of the word at address 8.
         store(W, 8, 32'h11223344);

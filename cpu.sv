@@ -5,8 +5,13 @@ module cpu
 ) (
     input  logic        clk,
     input  logic        reset,
+    input  logic        enable,        // 0 = freeze: the PC holds and nothing is written
     output logic [31:0] pc,
-    output logic [31:0] instruction
+    output logic [31:0] instruction,
+
+    // Read any register from outside (for the board's LEDs).
+    input  logic [4:0]  debug_reg,
+    output logic [31:0] debug_value
 );
 
     // Jump signals are used by the fetch unit here, but computed further
@@ -15,12 +20,12 @@ module cpu
     logic [31:0] jump_target;
 
     // ---------------- Fetch ----------------
-    // The PC advances every cycle: to PC + 4, or to the target of a
-    // taken branch or a jump.
+    // While enabled, the PC advances every cycle: to PC + 4, or to the
+    // target of a taken branch or a jump.
     instruction_fetch #(.PROGRAM(PROGRAM)) fetch (
         .clk(clk),
         .reset(reset),
-        .enable(1'b1),
+        .enable(enable),
         .load(take_jump),
         .target(jump_target),
         .pc(pc),
@@ -91,9 +96,11 @@ module cpu
         .read_addr2(rs2),
         .read_data1(rs1_value),
         .read_data2(rs2_value),
-        .write_enable(reg_write && !reset),  // no writes during reset
+        .write_enable(reg_write && enable && !reset),  // no writes while frozen or in reset
         .write_addr(rd),
-        .write_data(write_back)
+        .write_data(write_back),
+        .debug_addr(debug_reg),
+        .debug_data(debug_value)
     );
 
     // ---------------- Execute ----------------
@@ -143,7 +150,7 @@ module cpu
 
     data_memory dmem (
         .clk(clk),
-        .write_enable(mem_write && !reset),  // no writes during reset
+        .write_enable(mem_write && enable && !reset),  // no writes while frozen or in reset
         .funct3(funct3),                     // access size: byte, halfword, or word
         .address(alu_result),
         .write_data(rs2_value),

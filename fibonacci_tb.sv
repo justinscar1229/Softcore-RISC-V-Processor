@@ -9,8 +9,11 @@ module fibonacci_tb;
     cpu #(.PROGRAM("programs/fibonacci.hex")) dut (
         .clk(clk),
         .reset(reset),
+        .enable(1'b1),
         .pc(pc),
-        .instruction(instruction)
+        .instruction(instruction),
+        .debug_reg(5'd0),
+        .debug_value()
     );
 
     initial clk = 0;

@@ -28,7 +28,9 @@ module datapath
         .read_data2(operand_b),
         .write_enable(write_enable),
         .write_addr(write_addr),
-        .write_data(write_data)
+        .write_data(write_data),
+        .debug_addr(5'd0),          // debug port not used here
+        .debug_data()
     );
 
     alu arithmetic (
